@@ -1,17 +1,26 @@
 {
-  "buildCommand": "echo 'Build handled by GitHub Actions'",
+  "buildCommand": "",
   "outputDirectory": "build/web",
-  "installCommand": "echo 'No install needed - files pre-built by GitHub Actions'",
+  "installCommand": "",
   "framework": null,
   "github": {
-    "enabled": true,
-    "autoAlias": true,
-    "silent": false
+    "enabled": false
   },
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
     }
   ]
 }
