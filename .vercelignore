@@ -1,0 +1,11 @@
+# Ignore unnecessary files for Vercel
+android/
+ios/
+.dart_tool/
+build/
+*.iml
+.idea/
+.vscode/
+*.log
+*.lock
+
