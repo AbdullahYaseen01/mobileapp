@@ -1,7 +1,11 @@
 {
-  "buildCommand": "bash build.sh",
+  "buildCommand": "bash vercel-build.sh || flutter build web --release",
   "outputDirectory": "build/web",
-  "installCommand": "echo 'Flutter will be installed during build'",
-  "framework": null
+  "installCommand": "echo 'Flutter dependencies handled by GitHub Actions'",
+  "framework": null,
+  "github": {
+    "enabled": true,
+    "autoAlias": true
+  }
 }
 
