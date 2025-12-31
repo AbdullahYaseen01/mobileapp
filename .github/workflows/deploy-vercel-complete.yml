@@ -1,19 +1,17 @@
-name: Auto Deploy to Vercel
+name: Build and Deploy to Vercel
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
     
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Flutter
@@ -29,24 +27,34 @@ jobs:
       - name: Enable Web
         run: flutter config --enable-web
 
-      - name: Install dependencies
+      - name: Get dependencies
         run: flutter pub get
 
       - name: Build Web App
         run: flutter build web --release
 
+      - name: Check build output
+        run: |
+          echo "Build output contents:"
+          ls -la build/web/
+          echo "Build complete!"
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         id: vercel-deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-org-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod --yes'
           working-directory: ./
           scope: ${{ secrets.VERCEL_ORG_ID }}
 
-      - name: Show deployment URL
+      - name: Output deployment URL
         run: |
-          echo "🚀 App deployed to: ${{ steps.vercel-deploy.outputs.preview-url }}"
+          echo "🚀 Deployment URL: ${{ steps.vercel-deploy.outputs.preview-url }}"
 

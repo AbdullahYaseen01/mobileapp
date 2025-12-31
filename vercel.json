@@ -1,11 +1,18 @@
 {
-  "buildCommand": "bash vercel-build.sh || flutter build web --release",
+  "buildCommand": "echo 'Build handled by GitHub Actions'",
   "outputDirectory": "build/web",
-  "installCommand": "echo 'Flutter dependencies handled by GitHub Actions'",
+  "installCommand": "echo 'No install needed - files pre-built by GitHub Actions'",
   "framework": null,
   "github": {
     "enabled": true,
-    "autoAlias": true
-  }
+    "autoAlias": true,
+    "silent": false
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
 
